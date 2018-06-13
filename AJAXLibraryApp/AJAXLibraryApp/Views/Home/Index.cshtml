@@ -1,0 +1,197 @@
+﻿@{
+    ViewBag.Title = "Book List";
+}
+<div>
+    Author: <input id="bob" list="booklist" class="form-control"
+                   oninput="searchAuthor()" style="display:inline">
+    <datalist id="booklist"></datalist>
+
+    Title: <input id="jim" list="booklist2" class="form-control"
+                  oninput="searchTitle()" style="display:inline">
+    <datalist id="booklist2"></datalist>
+
+    Year: <input type="number" id="jimbob" list="booklist3" class="form-control"
+                 oninput="searchYear()" style="display:inline">
+    <datalist id="booklist3"></datalist><br>
+    Publisher: <input id="bobjim" list="booklist4" class="form-control"
+                 oninput="searchPublisher()" style="display:inline">
+    <datalist id="booklist4"></datalist>
+</div>
+<table class="table table-striped" id="books">
+    <!-- this is the inner HTML for #customers -->
+</table>
+<script type="text/javascript"
+        src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    function searchAuthor() {
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Home/GetBooksByAuthor',
+                data: '{author: "' + document.getElementById("bob").value
+                    + '"}',
+                contentType: 'application/json; charset-utf-8',
+                dataType: 'json',
+                success:
+                    function (response) {
+                        var tableHTML = "<tr><th>Title</th>"
+                            + "<th>Author</th>"
+                            + "<th>Year Published</th>"
+                            + "<th>Publisher</th></tr>";
+                        var BookList = "";
+
+                        for (var i = 0; i < response.length; i++) {
+                            var Book = response[i];
+                            var tr = "<tr><td>" + Book.Title + "</td>"
+                                + "<td>" + Book.Author + "</td>"
+                                + "<td>" + Book.YearPublished + "</td>"
+                                + "<td>" + Book.Publisher + "</td>"
+                                + "</tr>";
+                            tableHTML += tr;
+                            BookList += '<option value="' + Book.Author + '" />';
+                        }
+                        document.getElementById("books")
+                            .innerHTML = tableHTML;
+                        document.getElementById("booklist")
+                            .innerHTML = BookList;
+                    },
+                failure: function (response) {
+                    alert("Failure" + response.responseText);
+                },
+                error: function (response) {
+                    alert("Error" + response.responseText);
+                }
+            }
+
+        );
+    }
+
+    function searchTitle() {
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Home/GetBooksByTitle',
+                data: '{title: "' + document.getElementById("jim").value
+                    + '"}',
+                contentType: 'application/json; charset-utf-8',
+                dataType: 'json',
+                success:
+                    function (response) {
+                        var tableHTML = "<tr><th>Title</th>"
+                            + "<th>Author</th>"
+                            + "<th>Year Published</th>"
+                            + "<th>Publisher</th></tr>";
+                        var BookList = "";
+
+                        for (var i = 0; i < response.length; i++) {
+                            var Book = response[i];
+                            var tr = "<tr><td>" + Book.Title + "</td>"
+                                + "<td>" + Book.Author + "</td>"
+                                + "<td>" + Book.YearPublished + "</td>"
+                                + "<td>" + Book.Publisher + "</td>"
+                                + "</tr>";
+                            tableHTML += tr;
+                            BookList += '<option value="' + Book.Title + '" />';
+                        }
+                        document.getElementById("books")
+                            .innerHTML = tableHTML;
+                        document.getElementById("booklist2")
+                            .innerHTML = BookList;
+                    },
+                failure: function (response) {
+                    alert("Failure" + response.responseText);
+                },
+                error: function (response) {
+                    alert("Error" + response.responseText);
+                }
+            }
+
+        );
+    }
+
+    function searchYear() {
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Home/GetBooksByYear',
+                data: '{year: "' + document.getElementById("jimbob").value
+                    + '"}',
+                contentType: 'application/json; charset-utf-8',
+                dataType: 'json',
+                success:
+                    function (response) {
+                        var tableHTML = "<tr><th>Title</th>"
+                            + "<th>Author</th>"
+                            + "<th>Year Published</th>"
+                            + "<th>Publisher</th></tr>";
+                        var BookList = "";
+
+                        for (var i = 0; i < response.length; i++) {
+                            var Book = response[i];
+                            var tr = "<tr><td>" + Book.Title + "</td>"
+                                + "<td>" + Book.Author + "</td>"
+                                + "<td>" + Book.YearPublished + "</td>"
+                                + "<td>" + Book.Publisher + "</td>"
+                                + "</tr>";
+                            tableHTML += tr;
+                            BookList += '<option value="' + Book.YearPublished + '" />';
+                        }
+                        document.getElementById("books")
+                            .innerHTML = tableHTML;
+                        document.getElementById("booklist3")
+                            .innerHTML = BookList;
+                    },
+                failure: function (response) {
+                    alert("Failure" + response.responseText);
+                },
+                error: function (response) {
+                    alert("Error" + response.responseText);
+                }
+            }
+
+        );
+    }
+  
+    function searchPublisher() {
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Home/GetBooksByPublisher',
+                data: '{publisher: "' + document.getElementById("bobjim").value
+                    + '"}',
+                contentType: 'application/json; charset-utf-8',
+                dataType: 'json',
+                success:
+                    function (response) {
+                        var tableHTML = "<tr><th>Title</th>"
+                            + "<th>Author</th>"
+                            + "<th>Year Published</th>"
+                            + "<th>Publisher</th></tr>";
+                        var BookList = "";
+
+                        for (var i = 0; i < response.length; i++) {
+                            var Book = response[i];
+                            var tr = "<tr><td>" + Book.Title + "</td>"
+                                + "<td>" + Book.Author + "</td>"
+                                + "<td>" + Book.YearPublished + "</td>"
+                                + "<td>" + Book.Publisher + "</td>"
+                                + "</tr>";
+                            tableHTML += tr;
+                            BookList += '<option value="' + Book.Publisher + '" />';
+                        }
+                        document.getElementById("books")
+                            .innerHTML = tableHTML;
+                        document.getElementById("booklist4")
+                            .innerHTML = BookList;
+                    },
+                failure: function (response) {
+                    alert("Failure" + response.responseText);
+                },
+                error: function (response) {
+                    alert("Error" + response.responseText);
+                }
+            }
+
+        );
+    }
+</script>
